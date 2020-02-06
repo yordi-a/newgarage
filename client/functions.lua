@@ -155,7 +155,7 @@ VehicleAction = function(vehicleEntity, action)
     end
 
     if action == "change_lock_state" then
-        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:DoHudText('error', 'Araçtan çok uzaktasın.') end
+        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:SendAlert('error', 'Araçtan çok uzaktasın.') end
 
         PlayAnimation(PlayerPedId(), "anim@mp_player_intmenu@key_fob@", "fob_click", {
             ["speed"] = 8.0,
@@ -199,7 +199,7 @@ VehicleAction = function(vehicleEntity, action)
 
         ESX.ShowNotification(GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicleEntity))) .. " with plate - " .. GetVehicleNumberPlateText(vehicleEntity) .. " is now " .. (vehicleLockState == 1 and "LOCKED" or "UNLOCKED"))
     elseif action == "change_door_state" then
-        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:DoHudText('error', 'Araçtan çok uzaktasın.') end
+        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:SendAlert('error', 'Araçtan çok uzaktasın.') end
 
         ChooseDoor(vehicleEntity, function(doorChosen)
             if doorChosen then
@@ -211,7 +211,7 @@ VehicleAction = function(vehicleEntity, action)
             end
         end)
     elseif action == "change_engine_state" then
-        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:DoHudText('error', 'Araçtan çok uzaktasın.') end
+        if dstCheck >= Config.RangeCheck then return exports['mythic_notify']:SendAlert('error', 'Araçtan çok uzaktasın.') end
 
         if GetIsVehicleEngineRunning(vehicleEntity) then
             SetVehicleEngineOn(vehicleEntity, false, false)
@@ -302,7 +302,7 @@ SpawnLocalVehicle = function(vehicleProps)
 	
 	if not ESX.Game.IsSpawnPointClear(spawnpoint["position"], 3.0) then 
 	--	ESX.ShowNotification("Please move the vehicle that is in the way.")
-        exports['mythic_notify']:DoHudText('error', 'Lütfen önünüzdeki aracı ittirin.')
+        exports['mythic_notify']:SendAlert('error', 'Lütfen önünüzdeki aracı ittirin.')
 		return
 	end
 	
@@ -329,7 +329,7 @@ SpawnVehicle = function(vehicleProps)
 	end
 	
     if not ESX.Game.IsSpawnPointClear(spawnpoint["position"], 3.0) then 
-        exports['mythic_notify']:DoHudText('error', 'Lütfen önünüzdeki aracı ittirin.')
+        exports['mythic_notify']:SendAlert('error', 'Lütfen önünüzdeki aracı ittirin.')
 	--	ESX.ShowNotification("Please move the vehicle that is in the way.")
 
 		return
@@ -343,7 +343,7 @@ SpawnVehicle = function(vehicleProps)
         if DoesEntityExist(vehicle) then
 			if Config.Trim(GetVehicleNumberPlateText(vehicle)) == Config.Trim(vehicleProps["plate"]) then
             --    ESX.ShowNotification("Bu araç")
-                exports['mythic_notify']:DoHudText('error', 'Bu araç sokaklarda zaten var ve 2 tane araç alamazsınız.')
+                exports['mythic_notify']:SendAlert('error', 'Bu araç sokaklarda zaten var ve 2 tane araç alamazsınız.')
 
 				return HandleCamera(cachedData["currentGarage"])
 			end
@@ -360,7 +360,7 @@ SpawnVehicle = function(vehicleProps)
 		TaskWarpPedIntoVehicle(PlayerPedId(), yourVehicle, -1)
 
         SetEntityAsMissionEntity(yourVehicle, true, true)
-        exports['mythic_notify']:DoHudText('success', 'Aracı başarıyla çıkardın.')
+        exports['mythic_notify']:SendAlert('success', 'Aracı başarıyla çıkardın.')
     --  ESX.ShowNotification("You spawned your vehicle.")
 
         HandleCamera(cachedData["currentGarage"])
@@ -388,10 +388,10 @@ PutInVehicle = function()
 				Citizen.Wait(100)
 	
 				ESX.Game.DeleteVehicle(vehicle)
-                exports['mythic_notify']:DoHudText('success', 'Aracı garaja koydun.')
+                exports['mythic_notify']:SendAlert('success', 'Aracı garaja koydun.')
 			--	ESX.ShowNotification("You parked your vehicle.")
             else
-                exports['mythic_notify']:DoHudText('error', 'Bu aracı garaja koyamazsın.')
+                exports['mythic_notify']:SendAlert('error', 'Bu aracı garaja koyamazsın.')
 			--	ESX.ShowNotification("Do you really own this vehicle?")
 			end
 
